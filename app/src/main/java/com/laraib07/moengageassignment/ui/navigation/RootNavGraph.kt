@@ -17,7 +17,7 @@ fun RootNavGraph() {
         composable(route = Screen.HomeScreen.route) {
             HomeScreen(navController = navController)
         }
-        composable(route = Screen.NewsScreen.route) {
+        composable(route = Screen.NewsScreen.route + "?url={url}") {
             NewsScreen()
         }
     }

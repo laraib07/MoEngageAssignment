@@ -64,4 +64,6 @@ class ArticleRepository @Inject constructor(
             }
         }
     }
+
+    fun getArticleByURL(url: String): Flow<Article?> = articleDao.getArticleByURL(url)
 }

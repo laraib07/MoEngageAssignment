@@ -1,6 +1,7 @@
 package com.laraib07.moengageassignment.ui.screen
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,6 +35,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.transform.RoundedCornersTransformation
 import com.laraib07.moengageassignment.data.model.Article
+import com.laraib07.moengageassignment.ui.navigation.Screen
 
 @Composable
 fun HomeScreen(
@@ -44,7 +46,9 @@ fun HomeScreen(
     val uiState by viewModel.uiState.collectAsState(initial = HomeUiState())
     LazyColumn(modifier = modifier) {
         items(uiState.articles) {article ->
-            ArticleItem(article)
+            ArticleItem(article = article, onTap = {
+                navController.navigate(Screen.NewsScreen.route + "?url=${article.url}")
+            })
         }
     }
 }
@@ -52,13 +56,17 @@ fun HomeScreen(
 @Composable
 fun ArticleItem(
     article: Article,
+    onTap: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(horizontal = 8.dp, vertical = 4.dp),
+            .padding(horizontal = 8.dp, vertical = 4.dp)
+            .clickable {
+                       onTap()
+            },
         shape = RoundedCornerShape(10.dp)
     ) {
         Row(
@@ -80,13 +88,15 @@ fun ArticleItem(
                 alignment = Alignment.Center
             )
             Column(modifier = Modifier.wrapContentWidth()) {
+
                 Text(
-                    text = article.sourceName ?: "Source N/A",
-                    fontWeight = FontWeight.Bold
+                    text = article.title ?: "Title N/A",
+                    fontWeight = FontWeight.Bold,
+                    softWrap = true
                 )
                 Text(
-                    text = article.title ?: "Description N/A",
-                    softWrap = true
+                    text = article.sourceName ?: "Source N/A",
+                    fontStyle = FontStyle.Italic
                 )
             }
 

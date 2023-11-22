@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.laraib07.moengageassignment.data.model.Article
 import kotlinx.coroutines.flow.Flow
+import java.net.URL
 
 private const val TABLE = Article.TABLE_NAME
 
@@ -16,4 +17,7 @@ interface ArticleDao {
 
     @Query("SELECT * FROM $TABLE")
     fun getAllArticles(): Flow<List<Article>>
+
+    @Query("SELECT * FROM $TABLE WHERE url = :url")
+    fun getArticleByURL(url: String) : Flow<Article?>
 }
